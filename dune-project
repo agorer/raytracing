@@ -5,22 +5,15 @@
 (generate_opam_files true)
 
 (source
- (github username/reponame))
+ (github agorer/raytracing))
 
-(authors "Author Name")
+(authors "Juanjo Molinero")
 
-(maintainers "Maintainer Name")
+(license MIT)
 
-(license LICENSE)
-
-(documentation https://url/to/documentation)
+(documentation https://raytracing.github.io/books/RayTracingInOneWeekend.html)
 
 (package
  (name raytracing)
- (synopsis "A short synopsis")
- (description "A longer description")
- (depends ocaml dune)
- (tags
-  (topics "to describe" your project)))
-
-; See the complete stanza docs at https://dune.readthedocs.io/en/stable/reference/dune-project/index.html
+ (synopsis "")
+ (depends ocaml dune))
