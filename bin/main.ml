@@ -40,10 +40,12 @@ let ray_color ray =
   let white = 1.0, 1.0, 1.0 in
   let blue = 0.5, 0.7, 1.0 in
   let open Vec3d in
-  if (Sphere.hit_sphere (0.0, 0.0, -1.0) 0.5 ray) then
-    1.0, 0.0, 0.0
-  else
-    (white * (1.0 -. a)) + (blue * a)
+  let t = Sphere.hit_sphere (0.0, 0.0, -.1.0) 0.5 ray in
+  match t with
+  | None -> (white * (1.0 -. a)) + (blue * a)
+  | Some t ->
+      let (x, y, z) = unit_vector ((Ray.at ray t) - (0.0, 0.0, -.1.0)) in
+      (x +. 1.0, y +. 1.0, z +. 1.0) * 0.5
 
 let () =
   let oc = open_out "../images/image.ppm" in
