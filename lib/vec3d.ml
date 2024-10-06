@@ -10,7 +10,7 @@ let y (_, y, _) = y
 
 let z (_, _, z) = z
 
-(* let ( - ) (x, y, z) = -.x, -.y, -.z *)
+let neg (x, y, z) = -.x, -.y, -.z
 
 let ( - ) (x1, y1, z1) (x2, y2, z2) = x1 -. x2, y1 -. y2, z1 -. z2
 
