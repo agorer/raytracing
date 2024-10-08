@@ -20,7 +20,7 @@ let rec ray_color ray (depth: int) world =
   | Some collision ->
     if depth <= 0 then 0.0, 0.0, 0.0
     else
-      let reflexion_direction = Vec3d.random_on_hemisphere collision.normal in
+      let reflexion_direction = collision.normal + Vec3d.random_unit_vector() in
       let depth = Stdlib.(depth - 1) in
       (ray_color (collision.point, reflexion_direction) depth world) * 0.5
 
