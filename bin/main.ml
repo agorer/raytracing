@@ -9,6 +9,7 @@ let () =
     viewport_height = 2.;
     center = 0., 0., 0.;
     samples_per_pixel = 100;
+    max_depth = 50;
   }) in
   let world = [
     Hittable.Sphere((0., 0., -1.), 0.5);
