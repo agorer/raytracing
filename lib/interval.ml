@@ -11,3 +11,8 @@ let between n (min, max) =
 
 let surrounds (min, max) n =
   min < n && n < max
+
+let clamp x (min, max) =
+  if x < min then min
+  else if x > max then max
+  else x

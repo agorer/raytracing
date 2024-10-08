@@ -7,7 +7,8 @@ let () =
     image_width = 400;
     focal_length = 1.;
     viewport_height = 2.;
-    center = 0., 0., 0.
+    center = 0., 0., 0.;
+    samples_per_pixel = 100;
   }) in
   let world = [
     Hittable.Sphere((0., 0., -1.), 0.5);
