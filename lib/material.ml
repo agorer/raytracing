@@ -1,13 +1,15 @@
+open Materials
+
 type t =
-  | Lambertian of Materials.Lambertian.t
-  | Metal of Materials.Metal.t
+  | Lambertian of Lambertian.t
+  | Metal of Metal.t
+  | Dielectric of Dielectric.t
 
 let scatter ray (collision: t Collision.t) =
-  let open Materials in
   match collision.material with
   | Lambertian material ->
-    let collision = { collision with material } in
-    Lambertian.scatter ray collision
+    Lambertian.scatter ray { collision with material }
   | Metal material ->
-    let collision = { collision with material } in
-    Metal.scatter ray collision
+    Metal.scatter ray { collision with material }
+  | Dielectric material ->
+    Dielectric.scatter ray { collision with material }

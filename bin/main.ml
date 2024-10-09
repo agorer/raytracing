@@ -24,7 +24,11 @@ let () =
     Hittable.Sphere({
         center = (-1.0, 0.0, -1.0);
         radius = 0.5;
-        material = Material.Metal({albedo = 0.8, 0.8, 0.8; fuzz = 0.3}) });
+        material = Material.Dielectric({refraction_index = 1.5}) });
+    Hittable.Sphere({
+        center = (-1.0, 0.0, -1.0);
+        radius = 0.4;
+        material = Material.Dielectric({refraction_index = 1.0 /. 1.5}) });
     Hittable.Sphere({
         center = (1.0, 0.0, -1.0);
         radius = 0.5;

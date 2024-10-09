@@ -64,3 +64,9 @@ let near_zero (x, y, z) =
 let reflect v n =
   let dot_v_n = 2.0 *. (dot v n) in
   v - (n * dot_v_n)
+
+let refract uv n etai_over_etat =
+  let cos_theta = Float.min (dot (neg uv) n) 1.0 in
+  let r_out_perp = (uv + (n * cos_theta)) * etai_over_etat in
+  let r_out_parallel = n * (-. sqrt (Float.abs 1.0 -. (length_squared r_out_perp))) in
+  r_out_perp + r_out_parallel
