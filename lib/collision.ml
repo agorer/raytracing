@@ -1,8 +1,9 @@
-type t = {
+type 'a t = {
   t: float;
   point: float * float * float;
   normal: float * float * float;
   front_face: bool;
+  material: 'a;
 }
 
 (* The parameter outward_normal is assumed to have unit length *)
@@ -12,9 +13,9 @@ let set_face_normal colission ray outward_normal =
   let normal = if front_face then outward_normal else neg outward_normal in
   { colission with front_face; normal }
 
-let make ray t normal =
+let make ray t normal material =
   let point = Ray.at ray t in
-  let colission = { t; point; normal; front_face = false; } in
+  let colission = { t; point; normal; front_face = false; material } in
   set_face_normal colission ray normal
 
 let visible_collision objs hit_function ray (tmin, tmax) =

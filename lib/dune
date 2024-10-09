@@ -1,2 +1,4 @@
 (library
  (name raytracing))
+
+(include_subdirs qualified)

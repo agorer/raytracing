@@ -56,3 +56,11 @@ let random_on_hemisphere normal =
   let on_unit_sphere = random_unit_vector() in
   if (dot on_unit_sphere normal) > 0.0 then on_unit_sphere
   else (neg on_unit_sphere)
+
+let near_zero (x, y, z) =
+  let threshold = 1e-8 in
+  (Float.abs x) < threshold && (Float.abs y) < threshold && (Float.abs z) < threshold
+
+let reflect v n =
+  let dot_v_n = 2.0 *. (dot v n) in
+  v - (n * dot_v_n)

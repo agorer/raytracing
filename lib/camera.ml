@@ -20,9 +20,12 @@ let rec ray_color ray (depth: int) world =
   | Some collision ->
     if depth <= 0 then 0.0, 0.0, 0.0
     else
-      let reflexion_direction = collision.normal + Vec3d.random_unit_vector() in
       let depth = Stdlib.(depth - 1) in
-      (ray_color (collision.point, reflexion_direction) depth world) * 0.5
+      let reflexion = Material.scatter ray collision in
+      match reflexion with
+      | None -> 0.0, 0.0, 0.0
+      | Some reflexion ->
+        (ray_color reflexion.ray depth world) ** reflexion.attenuation
 
 let sample_square () =
   Random.random_double() -. 0.5, Random.random_double() -. 0.5, 0.0
