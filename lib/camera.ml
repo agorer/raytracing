@@ -1,11 +1,12 @@
 type t = {
   aspect_ratio: float;
   image_width: int;
-  focal_length: float;
-  viewport_height: float;
-  center: float * float * float;
   samples_per_pixel: int;
   max_depth: int;
+  vfov: float;                  (* Vertical view angle (field of view) *)
+  lookfrom: float * float * float; 
+  lookat: float * float * float;
+  vup: float * float * float;   (* Camera relative "up" direction *)
 }
 
 let rec ray_color ray (depth: int) world =
@@ -48,17 +49,26 @@ let rec build_color i j world pixel00_loc delta_u delta_v origin samples_left (d
     let color_sum = color_sum + (ray_color ray depth world) in
     let samples_left = Stdlib.(samples_left - 1) in
     build_color i j world pixel00_loc delta_u delta_v origin samples_left depth scale color_sum
+
+let calculate_viewport_height vfov focal_length =
+  let theta = Geometry.degrees_to_radians vfov in
+  let h = Float.tan (theta /. 2.0) in
+  2.0 *. h *. focal_length
   
 let render camera world =
   let open Vec3d in
   let oc = open_out "../images/image.ppm" in
   let image_height = int_of_float ((float_of_int camera.image_width) /. camera.aspect_ratio) in
-  let viewport_width = camera.viewport_height *.
+  let focal_length = length (camera.lookfrom - camera.lookat) in
+  let viewport_height = calculate_viewport_height camera.vfov focal_length in
+  let viewport_width = viewport_height *.
                        ((float_of_int camera.image_width) /. (float_of_int image_height)) in
-  let viewport_u = viewport_width, 0.0, 0.0 in
-  let viewport_v = 0.0, (-. camera.viewport_height), 0.0 in
-  let viewport_upper_left = camera.center -
-                            (0.0, 0.0, camera.focal_length) -
+  let w = unit_vector (camera.lookfrom - camera.lookat) in
+  let u = unit_vector (cross camera.vup w) in
+  let v = cross w u in          (* w, u, v are the camera frame basis vectors *)
+  let viewport_u = u * viewport_width in
+  let viewport_v = (neg v) * viewport_height in
+  let viewport_upper_left = camera.lookfrom - (w * focal_length) -
                             (viewport_u / 2.0) -
                             (viewport_v / 2.0) in
   let pixel_delta_u = viewport_u / (float_of_int camera.image_width) in
@@ -72,7 +82,7 @@ let render camera world =
       let j = float_of_int j in
       let pixel_color =
         build_color i j world
-          pixel00_loc pixel_delta_u pixel_delta_v camera.center
+          pixel00_loc pixel_delta_u pixel_delta_v camera.lookfrom
           camera.samples_per_pixel camera.max_depth pixel_samples_scale (0., 0., 0.) in
       Color.write_color oc pixel_color
     done
