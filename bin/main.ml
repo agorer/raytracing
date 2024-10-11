@@ -12,6 +12,8 @@ let () =
     lookfrom = -2.0, 2.0, 1.0;
     lookat = 0.0, 0.0, -1.0;
     vup = 0.0, 1.0, 0.0;
+    defocus_angle = 10.0;
+    focus_dist = 3.4;
   }) in
   let world = [
     Hittable.Sphere({

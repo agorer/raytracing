@@ -57,6 +57,11 @@ let random_on_hemisphere normal =
   if (dot on_unit_sphere normal) > 0.0 then on_unit_sphere
   else (neg on_unit_sphere)
 
+let rec random_in_unit_disk () =
+  let p = Random.random_between (-.1.0, 1.0), Random.random_between (-.1.0, 1.0), 0.0 in
+  if (length_squared p) < 1.0 then p
+  else random_in_unit_disk()
+
 let near_zero (x, y, z) =
   let threshold = 1e-8 in
   (Float.abs x) < threshold && (Float.abs y) < threshold && (Float.abs z) < threshold
