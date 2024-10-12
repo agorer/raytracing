@@ -15,5 +15,5 @@
 
 (package
  (name raytracing)
- (synopsis "")
+ (synopsis "Path tracer in Ocaml")
  (depends ocaml dune))

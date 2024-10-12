@@ -1,3 +1,5 @@
+module F = Format
+
 type t = {
   aspect_ratio: float;
   image_width: int;
@@ -101,6 +103,7 @@ let render camera world =
   let focus = { defocus_angle = camera.defocus_angle; defocus_disk_u; defocus_disk_v } in
   Printf.fprintf oc "P3\n%d %d\n255\n" camera.image_width image_height;
   for j = 0 to Stdlib.(image_height - 1) do
+    F.printf "\rScanlines remaining: %d %!" Stdlib.(image_height - j);
     for i = 0 to Stdlib.(camera.image_width - 1) do
       let i = float_of_int i in
       let j = float_of_int j in

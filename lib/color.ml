@@ -1,5 +1,12 @@
 type t = Vec3d.t
 
+let random_beetwen interval =
+  let open Random in
+  random_between interval, random_between interval, random_between interval
+    
+let random () =
+  random_beetwen (0.0, 1.0)
+
 let linear_to_gamma linear =
   if linear > 0.0 then Float.sqrt linear
   else 0.0
